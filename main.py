@@ -43,8 +43,26 @@ print("\n---Ejercicio 4---\n")
 
 # C4. ¿Cuántas empresas de taxi han registrado servicios de taxi? Verifique cuantas empresas (Base Name) tienen al menos un servicio de taxi asociado.
 
-basename = driver["Base_Name"].value_counts()
-print(basename)
+dic_driver = {}
+licencias_driver = driver['Vehicle_License_Number']
+
+for licencia in licencias_driver:
+    empresa = driver[driver['Vehicle_License_Number'] == licencia]['Base_Name'].values[0]
+    dic_driver[licencia] = empresa
+
+dic_service = {}
+licencias_service = service['Vehicle_License_Number']
+
+for licencia in licencias_service:
+    if dic_driver[licencia] not in dic_service:
+        dic_service.update({dic_driver[licencia]: 1})
+    else:
+        dic_service[dic_driver[licencia]] += 1
+
+respuestas_ordenadas = sorted(dic_service.items(), key=lambda x: x[1], reverse=True)
+
+for empresa, cantidad in respuestas_ordenadas:
+    print(f"{empresa}, {cantidad}")
 
 print("\n---Ejercicio 5---\n")
 

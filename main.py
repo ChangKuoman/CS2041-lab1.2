@@ -50,5 +50,17 @@ print("\n---Ejercicio 5---\n")
 
 # C5. ¿Qué empresa(s) de taxi (Base Name) reportaron servicio(s) el día 28 de diciembre?
 
+lista = []
+for x in range(len(service["lpep_pickup_datetime"].values)):
+    date = str(" ".join([i for i in service["lpep_pickup_datetime"].values[x].split()[0].split('/')]))
+    format_date = datetime.strptime(date, "%d %m %Y")
+    if format_date.day == 28 and format_date.month == 12:
+        placa = service.iloc[[x]]["Vehicle_License_Number"].values[0]
+        valor = driver[driver["Vehicle_License_Number"] == placa]["Base_Name"].values[0]
+        if valor not in lista and valor != "":
+            lista.append(valor)
+
+for i in lista:
+    print(i)
 
 
